@@ -1,59 +1,218 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# E-Commerce Marketplace
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-featured multi-vendor e-commerce marketplace built with **Laravel 12**, **Tailwind CSS v4**, and **Alpine.js**. The platform supports four distinct user roles — Admin, Vendor, Customer, and Delivery Agent — each with dedicated dashboards and workflows.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Layer     | Technology                           |
+|-----------|--------------------------------------|
+| Backend   | PHP 8.4, Laravel 12                  |
+| Frontend  | Blade, Tailwind CSS v4, Alpine.js v3 |
+| Database  | PostgreSQL                           |
+| Payments  | Stripe                               |
+| Bundler   | Vite 7                               |
+| Testing   | Pest 4                               |
+| PDF       | DomPDF                               |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Storefront
+- Product catalog with category & brand filtering
+- Full-text product search
+- Product detail pages with variants & attributes
+- Shopping cart with coupon support
+- Stripe checkout with webhook integration
+- Vendor store pages
+- Campaign & promotional landing pages
+- Wishlist & recently viewed products
+- Customer reviews with image uploads
 
-## Learning Laravel
+### Customer Dashboard
+- Order history & order detail views
+- Return & refund requests
+- Dispute management
+- Address book management
+- Messaging / conversations with vendors
+- Profile management
+- Notification center
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Vendor Dashboard
+- Sales analytics & revenue reports
+- Product management (CRUD, images, variants, attributes)
+- Inventory management with low-stock alerts
+- Order management & fulfillment
+- Coupon & campaign management
+- Shipment tracking
+- Return request handling
+- Payout history
+- Store settings & profile
+- Messaging with customers
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Admin Panel
+- Platform-wide dashboard & analytics
+- User management
+- Product moderation (approval workflow)
+- Category & brand management
+- Order management with bulk actions
+- Banner management
+- Campaign management
+- Shipment oversight
+- Dispute resolution
+- Return management
+- Vendor payout processing
+- Revenue & sales reports (with PDF export)
+- App-wide settings (logo, currency, shipping fees, tax, etc.)
 
-## Laravel Sponsors
+### Delivery Agent Dashboard
+- Assigned shipment management
+- Delivery status updates & tracking events
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Authentication & Security
+- Email/password login with rate limiting
+- Social login via Laravel Socialite
+- Email verification
+- Password reset flow
+- Role-based access control with policies & middleware
 
-### Premium Partners
+### Emails & Notifications
+- Order confirmation & status update emails
+- Vendor new-order notifications
+- Abandoned cart reminders
+- Return status & vendor return notifications
+- Password reset emails
+- In-app notification system
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Architecture
 
-## Contributing
+```
+app/
+├── Console/          # Artisan commands (e.g. low-stock alerts)
+├── Enums/            # OrderStatus, UserRole, PaymentStatus, etc.
+├── Events/           # Domain events
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/        # Admin panel controllers
+│   │   ├── Api/          # REST API (cart, search, wishlist, webhooks)
+│   │   ├── Auth/         # Login, register, social auth, password reset
+│   │   ├── Customer/     # Customer dashboard controllers
+│   │   ├── Delivery/     # Delivery agent controllers
+│   │   ├── Storefront/   # Public storefront controllers
+│   │   └── Vendor/       # Vendor dashboard controllers
+│   └── Requests/         # Form request validation classes
+├── Listeners/
+├── Mail/             # Mailable classes
+├── Models/           # Eloquent models (31 models)
+├── Notifications/    # Per-role notification classes
+├── Policies/         # Authorization policies
+├── Providers/
+└── Services/         # Business logic (Cart, Order, Payment, Stripe, etc.)
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Prerequisites
 
-## Code of Conduct
+- PHP 8.2+
+- Composer
+- Node.js & npm
+- PostgreSQL
+- [Laravel Herd](https://herd.laravel.com/) (recommended) or any PHP development server
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Installation
 
-## Security Vulnerabilities
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd e-commerce
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Run the setup script**
+   ```bash
+   composer setup
+   ```
+   This will install PHP & JS dependencies, generate an app key, run migrations, and build assets.
+
+3. **Configure environment**
+
+   Copy `.env.example` to `.env` (done automatically by `composer setup`) and update:
+   ```dotenv
+   # Database
+   DB_CONNECTION=pgsql
+   DB_DATABASE=e_commerce
+   DB_USERNAME=postgres
+   DB_PASSWORD=your_password
+
+   # Stripe
+   STRIPE_KEY=pk_test_...
+   STRIPE_SECRET=sk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+
+   # Marketplace defaults
+   MARKETPLACE_CURRENCY=USD
+   MARKETPLACE_VENDOR_COMMISSION_RATE=10
+   ```
+
+4. **Seed the database** (optional)
+   ```bash
+   php artisan db:seed
+   ```
+
+5. **Access the application**
+
+   If using Laravel Herd, the app is automatically available at `http://e-commerce.test`.
+
+   Otherwise, start the dev server:
+   ```bash
+   composer run dev
+   ```
+
+## Demo Accounts
+
+After running `php artisan db:seed`, the following accounts are available (all use password: `password`):
+
+| Role           | Email                        | Dashboard Route        |
+|----------------|------------------------------|------------------------|
+| Admin          | `admin@marketplace.test`     | `/admin/dashboard`     |
+| Delivery Agent | `delivery@marketplace.test`  | `/delivery/dashboard`  |
+| Vendor         | *(5 random seeded emails)*   | `/vendor/dashboard`    |
+| Customer       | *(10 random seeded emails)*  | Storefront (`/`)       |
+
+Login at `/login`. After authentication, users are automatically redirected to their role-specific dashboard. Social login (Google & GitHub) is also available if configured.
+
+## Development
+
+```bash
+# Start all services (server, queue, logs, vite) concurrently
+composer run dev
+
+# Build frontend assets for production
+npm run build
+
+# Run the test suite
+composer run test
+
+# Run specific tests
+php artisan test --compact --filter=OrderTest
+
+# Format PHP code
+vendor/bin/pint --dirty
+```
+
+## Testing
+
+The project uses **Pest 4** for testing with feature and unit test suites covering:
+
+- Authentication & authorization flows
+- Storefront browsing & checkout
+- Admin bulk operations & moderation
+- Vendor reports & order management
+- Delivery shipment workflows
+- Stripe payment & webhook handling
+- Campaign & coupon logic
+- Dispute & return workflows
+
+```bash
+php artisan test --compact
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
